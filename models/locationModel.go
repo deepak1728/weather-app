@@ -21,7 +21,7 @@ type LocationData struct {
 	Lon            string `json:"lon"`
 	TimezoneId     string `json:"timezone_id"`
 	LocalTime      string `json:"localtime"`
-	LocalTimeEpoch string `json:"localtime_epoch"`
+	LocalTimeEpoch int64  `json:"localtime_epoch"`
 	UtcOffset      string `json:"utc_offset"`
 }
 

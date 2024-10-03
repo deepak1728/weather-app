@@ -1,25 +1,29 @@
 package controller
 
 import (
-	"github.com/deepak1728/models"
 	"github.com/deepak1728/service"
 	"github.com/gin-gonic/gin"
 )
 
 type LocationController interface {
-	CurrentLocation(ctx *gin.Context) models.Results
+	CurrentLocation(ctx *gin.Context)
 }
 
-type location struct {
-	service service.WeatherService
+type Location struct {
+	Service service.WeatherService
+}
+
+func NewLocation(service service.WeatherService) LocationController {
+	return &Location{Service: service}
 }
 
 func NewLocationController(service service.WeatherService) LocationController {
-	return &location{service: service}
+	return &Location{Service: service}
 }
 
-func (l *location) CurrentLocation(ctx *gin.Context) models.Results {
+func (l *Location) CurrentLocation(ctx *gin.Context) {
 	city := ctx.Query("query")
 
-	return l.service.GetResults(city)
+	results := l.Service.GetResults(city)
+	ctx.JSON(200, results)
 }

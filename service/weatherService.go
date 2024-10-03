@@ -18,15 +18,15 @@ type WeatherService interface {
 	GetResults(city string) models.Results
 }
 
-type weatherService struct {
-	results models.Results
+type Weather struct {
+	Results models.Results
 }
 
 func New() WeatherService {
-	return &weatherService{}
+	return &Weather{}
 }
 
-func (w *weatherService) GetResults(city string) models.Results {
+func (w *Weather) GetResults(city string) models.Results {
 
 	key := loadApiKey()
 	if key == "" {
@@ -58,11 +58,11 @@ func (w *weatherService) GetResults(city string) models.Results {
 		log.Error().Err(err).Msg("unable to read body")
 	}
 
-	if err := json.Unmarshal(body, &w.results); err != nil {
+	if err := json.Unmarshal(body, &w.Results); err != nil {
 		log.Error().Err(err).Msg("unmarshalling failed")
 	}
 
-	return w.results
+	return w.Results
 }
 
 func loadApiKey() string {

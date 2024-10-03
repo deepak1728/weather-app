@@ -6,18 +6,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var (
-	weatherService    service.WeatherService        = service.New()
-	weatherController controller.LocationController = controller.NewLocationController(weatherService)
-)
-
 func main() {
 	router := gin.Default()
 
-	router.GET("/report", func(ctx *gin.Context) {
-		ctx.JSON(200, weatherController.CurrentLocation(ctx))
+	weatherService := service.New()
+	weatherController := controller.NewLocation(weatherService)
 
-	})
+	current := router.Group("/current")
+
+	current.GET("", weatherController.CurrentLocation)
 
 	router.Run(":8080")
 }
